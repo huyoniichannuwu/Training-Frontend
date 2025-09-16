@@ -1,0 +1,29 @@
+
+<!doctype html>
+<html>
+  <meta charset="utf-8" />
+  <title>Gallery (Modal)</title>
+  <body>
+    <h1>Gallery</h1>
+    <div id="grid"></div>
+    <div id="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.6)">
+      <img id="big" style="max-width:90%; max-height:90%; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%)" />
+    </div>
+    <script>
+      const urls = [
+        "https://picsum.photos/id/1011/300/200",
+        "https://picsum.photos/id/1015/300/200",
+        "https://picsum.photos/id/1025/300/200",
+        "https://picsum.photos/id/1035/300/200"
+      ];
+      const grid = document.getElementById('grid');
+      const modal = document.getElementById('modal');
+      const big = document.getElementById('big');
+      grid.innerHTML = urls.map(u=>\`<img src="\${u}" style="margin:6px;cursor:pointer" width="150" />\`).join("");
+      grid.onclick = (e)=>{
+        if(e.target.tagName==='IMG'){ big.src = e.target.src.replace('/300/200','/1200/800'); modal.style.display='block'; }
+      };
+      modal.onclick = ()=> modal.style.display='none';
+    </script>
+  </body>
+</html>

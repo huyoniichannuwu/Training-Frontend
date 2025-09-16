@@ -1,0 +1,37 @@
+
+<!doctype html>
+<html>
+  <meta charset="utf-8" />
+  <title>Todo (LocalStorage)</title>
+  <body>
+    <h1>Todo</h1>
+    <input id="inp" placeholder="Việc cần làm..." />
+    <button id="addBtn">Thêm</button>
+    <ul id="list"></ul>
+
+    <script>
+      const KEY = 'todos_demo';
+      const listEl = document.getElementById('list');
+      const inp = document.getElementById('inp');
+      const addBtn = document.getElementById('addBtn');
+
+      function load(){ try { return JSON.parse(localStorage.getItem(KEY)||'[]'); } catch { return []; } }
+      function save(arr){ localStorage.setItem(KEY, JSON.stringify(arr)); }
+      function render(){
+        const data = load();
+        listEl.innerHTML = data.map((t,i)=>\`<li data-i="\${i}">\${t} <button data-del="\${i}">x</button></li>\`).join("");
+      }
+      addBtn.onclick = () => {
+        const v = inp.value.trim(); if(!v) return;
+        const data = load(); data.push(v); save(data); inp.value=""; render();
+      };
+      listEl.addEventListener('click', e=>{
+        const i = e.target.dataset.del;
+        if(i!==undefined){
+          const data = load(); data.splice(+i,1); save(data); render();
+        }
+      });
+      render();
+    </script>
+  </body>
+</html>

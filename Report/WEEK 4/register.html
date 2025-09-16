@@ -1,0 +1,32 @@
+
+<!doctype html>
+<html>
+  <meta charset="utf-8" />
+  <title>Register Form (Validate)</title>
+  <body>
+    <h1>Đăng ký</h1>
+    <form id="form">
+      <div><input name="name" placeholder="Tên" /></div>
+      <div><input name="email" placeholder="Email" /></div>
+      <div><input name="password" type="password" placeholder="Mật khẩu (>=6)" /></div>
+      <button>Gửi</button>
+    </form>
+    <p id="msg"></p>
+    <script>
+      const form = document.getElementById('form');
+      const msg = document.getElementById('msg');
+      form.onsubmit = (e)=>{
+        e.preventDefault();
+        const fd = new FormData(form);
+        const name = fd.get('name').trim();
+        const email = fd.get('email').trim();
+        const pass = String(fd.get('password')||'');
+        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        if(!name){ msg.textContent="Thiếu tên"; return; }
+        if(!emailOk){ msg.textContent="Email không hợp lệ"; return; }
+        if(pass.length < 6){ msg.textContent="Mật khẩu quá ngắn"; return; }
+        msg.textContent = "OK!";
+      };
+    </script>
+  </body>
+</html>

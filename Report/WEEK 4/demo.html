@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 04 JS Advanced 2 Demo</title>
+</head>
+<body>
+<h1>JS Advanced 2 Demo</h1>
+<button id="darkBtn">Toggle Dark Mode</button>
+<ul id="todoList"></ul>
+<input id="todoInput" placeholder="New todo">
+<button id="addTodoBtn">Add Todo</button>
+<script>
+// Simple dark mode
+document.getElementById('darkBtn').onclick = function(){
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark')?'dark':'light');
+}
+
+// Todo list demo
+const todoListEl = document.getElementById('todoList');
+const todoInput = document.getElementById('todoInput');
+const todos = JSON.parse(localStorage.getItem('todos')||'[]');
+
+function renderTodos(){
+    todoListEl.innerHTML = '';
+    todos.forEach((t,i)=>{
+        const li=document.createElement('li');
+        li.textContent = t;
+        li.onclick = ()=>{
+            todos.splice(i,1);
+            localStorage.setItem('todos', JSON.stringify(todos));
+            renderTodos();
+        };
+        todoListEl.appendChild(li);
+    });
+}
+renderTodos();
+
+document.getElementById('addTodoBtn').onclick = function(){
+    const val = todoInput.value.trim();
+    if(val){
+        todos.push(val);
+        localStorage.setItem('todos', JSON.stringify(todos));
+        todoInput.value='';
+        renderTodos();
+    }
+}
+</script>
+</body>
+</html>

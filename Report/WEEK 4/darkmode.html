@@ -1,0 +1,25 @@
+
+<!doctype html>
+<html>
+  <meta charset="utf-8" />
+  <title>Dark Mode</title>
+  <body>
+    <button id="toggle">Toggle Dark Mode</button>
+    <p>Nội dung trang...</p>
+    <script>
+      const KEY='theme';
+      const btn=document.getElementById('toggle');
+      function apply(theme){
+        document.body.style.background = theme==='dark' ? '#111' : '#fff';
+        document.body.style.color = theme==='dark' ? '#eee' : '#111';
+      }
+      function current(){ return localStorage.getItem(KEY) || 'light'; }
+      apply(current());
+      btn.onclick = ()=>{
+        const next = current()==='dark' ? 'light' : 'dark';
+        localStorage.setItem(KEY, next);
+        apply(next);
+      };
+    </script>
+  </body>
+</html>
